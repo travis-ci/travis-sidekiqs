@@ -5,7 +5,6 @@ module Travis
         begin
           yield
         rescue => error
-          Metriks.meter('travis.errors').mark
           Raven.captureException(error)
           raise
         end
