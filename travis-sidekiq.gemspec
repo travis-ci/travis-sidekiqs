@@ -15,4 +15,7 @@ Gem::Specification.new do |gem|
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
+  gem.add_dependency 'sidekiq', '~> 2.5.0'
+  gem.add_dependency 'metriks', '~> 0.9.9.2'
+  gem.add_dependency 'sentry-raven'
 end
