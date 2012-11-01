@@ -3,7 +3,7 @@ require 'sidekiq/worker'
 module Travis
   module Sidekiq
     class Blackhole
-      include Sidekiq::Worker
+      include ::Sidekiq::Worker
 
       def perform(message)
         puts message
