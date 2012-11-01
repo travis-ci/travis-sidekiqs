@@ -1,5 +1,5 @@
 module Travis
-  module Gatekeeper
+  module Sidekiq
     class SentryErrors
       def call(worker, message, queue)
         begin
