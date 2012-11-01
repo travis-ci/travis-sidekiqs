@@ -3,7 +3,7 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |gem|
-  gem.name          = "travis-sidekiq"
+  gem.name          = "travis-sidekiqs"
   gem.version       = "0.0.1"
   gem.authors       = ["Mathias Meyer"]
   gem.email         = ["meyer@paperplanes.de"]
