@@ -6,18 +6,21 @@ module Travis
     class SynchronizeUser
       include ::Sidekiq::Worker
 
-      attr_accessor :service, :user_id
+      attr_accessor :user, :repository
 
       def perform(user_id)
-        @user_id = user_id
-        user.sync
+        user(user_id).sync
       rescue StandardError => e
-        @user.update_column(is_syncing: false)
+        user(user_id).update_column(:is_syncing, false)
         raise
       end
 
-      def user
-        @user ||= User.find(user_id)
+      def user(user_id)
+        @user ||= repository.find(user_id)
+      end
+
+      def repository
+        @repository ||= ::User
       end
     end
   end
