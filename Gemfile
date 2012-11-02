@@ -13,3 +13,7 @@ group :test do
   gem 'guard-rspec'
   gem 'rb-fsevent'
 end
+
+group :development, :test do
+  gem 'micro_migrations', git: 'git://gist.github.com/2087829.git'
+end
