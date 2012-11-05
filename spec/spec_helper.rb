@@ -1,8 +1,8 @@
 ENV["RAILS_ENV"] ||= "test"
 
-
 require 'travis'
 require 'travis-sidekiqs'
+require 'mocha_standalone'
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
