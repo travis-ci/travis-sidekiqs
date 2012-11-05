@@ -5,13 +5,18 @@ module Travis
         begin
           yield
         rescue => error
-          dispatch(error)
+          dispatch(error, worker, queue)
           raise
         end
       end
 
-      def dispatch(error)
-        Celluloid::Actor[:sentry_dispatch].async.dispatch(error)
+      def dispatch(error, worker, queue)
+        message = {
+          error: error,
+          queue: queue,
+          worker: worker
+        }
+        Celluloid::Actor[:sentry_dispatch].async.dispatch(message)
       end
     end
   end
