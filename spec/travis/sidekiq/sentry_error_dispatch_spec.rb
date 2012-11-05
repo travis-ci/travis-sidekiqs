@@ -28,7 +28,6 @@ describe Travis::Sidekiq::SentryErrorDispatch do
 
   it "should send an event with metadata included" do
     dispatch.dispatch(error: StandardError.new)
-    puts raven.errors.first.extra
     raven.errors.first.extra[:env].should == "test"
   end
 end
