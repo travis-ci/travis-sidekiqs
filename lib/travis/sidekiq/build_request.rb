@@ -1,5 +1,4 @@
 require 'sidekiq/worker'
-require 'travis/services/requests/receive'
 
 module Travis
   module Sidekiq
@@ -18,7 +17,7 @@ module Travis
       end
 
       def service
-        @service ||= Travis::Core::Services::Requests::Receive.new(nil, payload)
+        @service ||= Travis::Services::Requests::Receive.new(nil, payload)
       end
     end
   end
