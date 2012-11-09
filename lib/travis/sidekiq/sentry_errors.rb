@@ -16,6 +16,7 @@ module Travis
           queue: queue,
           worker: worker
         }
+        puts "Dispatching error to dispatcher: #{error}"
         Celluloid::Actor[:sentry_dispatch].async.dispatch(message)
       end
     end
