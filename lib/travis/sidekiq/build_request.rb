@@ -21,7 +21,7 @@ module Travis
 
       def service
         raise(ProcessingError, "the #{type} payload was empty and could not be processed") unless data
-        @service ||= Travis::Services::Requests::Receive.new(@user, payload: payload, event_type: type, token: credentials['token'])
+        @service ||= Travis::Services::Requests::Receive.new(@user, payload: data, event_type: type, token: credentials['token'])
       end
 
       def type
