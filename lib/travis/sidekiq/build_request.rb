@@ -1,4 +1,5 @@
 require 'sidekiq/worker'
+require 'multi_json'
 
 module Travis
   module Sidekiq
@@ -32,7 +33,7 @@ module Travis
       end
 
       def data
-        @data ||= payload['payload']
+        @data ||= payload['payload'] ? MultiJson.decode(payload['payload']) : nil
       end
 
       def authenticate
