@@ -32,11 +32,15 @@ module Travis
       end
 
       def data
-        @data ||= payload['payload'] ? MultiJson.decode(payload['payload']) : nil
+        @data ||= payload['payload']
       end
 
       def authenticate
         @user = User.authenticate_by(credentials)
+      end
+
+      def authenticated?
+        !!authenticate
       end
     end
   end
