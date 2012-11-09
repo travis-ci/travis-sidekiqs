@@ -13,11 +13,30 @@ module Travis
       end
 
       def run
-        service.run
+        if authenticated?
+          service.run
+        end
       end
 
       def service
-        @service ||= Travis::Services::Requests::Receive.new(nil, payload)
+        raise(ProcessingError, "the #{type} payload was empty and could not be processed") unless data
+        @service ||= Travis::Services::Requests::Receive.new(@user, payload: payload, event_type: type, token: credentials['token'])
+      end
+
+      def type
+        payload['type']
+      end
+
+      def credentials
+        payload['credentials']
+      end
+
+      def data
+        @data ||= payload['payload'] ? MultiJson.decode(payload['payload']) : nil
+      end
+
+      def authenticate
+        @user = User.authenticate_by(credentials)
       end
     end
   end
