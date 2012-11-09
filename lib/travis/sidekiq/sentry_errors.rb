@@ -4,7 +4,7 @@ module Travis
       def call(worker, message, queue)
         begin
           yield
-        rescue => error
+        rescue Exception => error
           dispatch(error, worker, queue)
           raise
         end
@@ -16,7 +16,6 @@ module Travis
           queue: queue,
           worker: worker
         }
-        puts "Dispatching error to dispatcher: #{error}"
         Celluloid::Actor[:sentry_dispatch].async.dispatch(message)
       end
     end
