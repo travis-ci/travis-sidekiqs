@@ -14,6 +14,7 @@ module Travis
       end
 
       def dispatch(error)
+        puts "Dispatching error to Sentry: #{error}"
         event = Raven::Event.capture_exception(error.delete(:error)) do |event|
           event.extra = error.merge(env: options[:env])
         end
