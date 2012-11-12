@@ -5,6 +5,7 @@ module Travis
   module Sidekiq
     class SynchronizeUser
       include ::Sidekiq::Worker
+      sidekiq_options retry: 5
 
       attr_accessor :user, :repository
 
