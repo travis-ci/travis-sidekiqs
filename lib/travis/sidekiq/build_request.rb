@@ -20,7 +20,7 @@ module Travis
       end
 
       def service
-        raise(ProcessingError, "the #{type} payload was empty and could not be processed") unless data
+        raise(StandardError, "the #{type} payload was empty and could not be processed") unless data
         @service ||= Travis::Service.service(:request, :receive, @user, payload: data, event_type: type, token: credentials['token'])
       end
 
