@@ -8,7 +8,7 @@ module Travis
 
       include ::Sidekiq::Worker
 
-      attr_accessor :service, :payload
+      attr_accessor :payload
 
       def perform(payload)
         @payload = payload
@@ -28,7 +28,7 @@ module Travis
       end
 
       def service
-        @service ||= Travis::Services.service(:requests, :receive, @user, payload: data, event_type: type, token: credentials['token'])
+        @service ||= Travis.service(:request_receive, @user, payload: data, event_type: type, token: credentials['token'])
       end
 
       def type

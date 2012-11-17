@@ -1,5 +1,4 @@
 require 'sidekiq'
-require 'travis/model/user'
 
 module Travis
   module Sidekiq
@@ -7,21 +6,8 @@ module Travis
       include ::Sidekiq::Worker
       sidekiq_options retry: 5
 
-      attr_accessor :user, :repository
-
       def perform(user_id)
-        user(user_id).sync
-      rescue StandardError => e
-        user(user_id).update_column(:is_syncing, false)
-        raise
-      end
-
-      def user(user_id)
-        @user ||= repository.find(user_id)
-      end
-
-      def repository
-        @repository ||= ::User
+        Travis.run_service(:github_sync_user, id: user_id)
       end
     end
   end
