@@ -1,30 +1,28 @@
 require 'spec_helper'
 
 describe Travis::Sidekiq::SentryErrors do
+  class FakeRaven
+    attr_reader :events
+
+    def initialize
+      @events = []
+    end
+
+    def send(event)
+      @events << event
+    end
+  end
+
   let(:errors) {
     Travis::Sidekiq::SentryErrors.new
   }
 
-  class FakeSentryErrorDispatch
-    include Celluloid
-    
-    attr_reader :errors
-
-    def initialize()
-      @errors = []
-    end
-
-    def dispatch(error)
-      errors << error
-    end
-  end
-
-  let(:dispatch) {
-    Celluloid::Actor[:sentry_dispatch]
+  let(:raven) {
+    FakeRaven.new
   }
 
   before do
-    FakeSentryErrorDispatch.supervise_as :sentry_dispatch
+    errors.raven = raven
   end
 
   it "should dispatch the error" do
@@ -33,18 +31,20 @@ describe Travis::Sidekiq::SentryErrors do
         raise
       end
     rescue
+      p $!
     end
-    dispatch.errors.should have(1).item
+    raven.events.should have(1).item
   end
 
-  it "should include the worker, message and queue" do
+  it "should include the worker and queue" do
     begin
       errors.call("user_sync", nil, "users") do
         raise
       end
     rescue
+      p $!
     end
-    dispatch.errors.first[:worker].should == "user_sync"
-    dispatch.errors.first[:queue].should == "users"
+    raven.events.first.extra[:worker].should == "user_sync"
+    raven.events.first.extra[:queue].should == "users"
   end
 end
