@@ -4,23 +4,28 @@ require 'multi_json'
 module Travis
   module Sidekiq
     class BuildRequest
+      class ProcessingError < StandardError; end
+
       include ::Sidekiq::Worker
 
       attr_accessor :service, :payload
 
       def perform(payload)
         @payload = payload
-        run
+        if authenticated?
+          run
+        end
       end
 
       def run
-        if authenticated?
+        if data
           service.run
+        else
+          Travis.logger.warn("The #{type} payload was empty and could not be processed")
         end
       end
 
       def service
-        raise(StandardError, "the #{type} payload was empty and could not be processed") unless data
         @service ||= Travis::Services.service(:requests, :receive, @user, payload: data, event_type: type, token: credentials['token'])
       end
 
