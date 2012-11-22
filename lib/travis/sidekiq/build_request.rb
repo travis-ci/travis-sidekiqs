@@ -14,6 +14,8 @@ module Travis
         @payload = payload
         if authenticated?
           run
+        else
+          Travis.logger.warn("Received unauthenticated requests to build #{data["repository"].inspect} for credentials #{credentials.inspect}")
         end
       end
 
