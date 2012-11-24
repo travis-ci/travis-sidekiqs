@@ -28,7 +28,7 @@ module Travis
       end
 
       def service
-        @service ||= Travis.service(:request_receive, @user, payload: data, event_type: type, token: credentials['token'])
+        @service ||= Travis.service(:receive_request, @user, payload: data, event_type: type, token: credentials['token'])
       end
 
       def type
