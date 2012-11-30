@@ -8,6 +8,8 @@ module Travis
 
       include ::Sidekiq::Worker
 
+      sidekiq_options queue: :build_requests
+
       attr_accessor :payload
 
       def perform(payload)
