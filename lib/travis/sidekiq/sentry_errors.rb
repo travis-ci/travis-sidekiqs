@@ -19,6 +19,9 @@ module Travis
           event.extra = extra
         end
         raven.send(event)
+      rescue Exception => e
+        Travis.logger.error("Sending error to Sentry failed: #{e.message}")
+        Travis.logger.error(e.backtrace.join("\n"))
       end
 
       def raven
