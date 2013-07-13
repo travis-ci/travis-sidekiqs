@@ -13,6 +13,7 @@ module Travis
       attr_accessor :payload
 
       def perform(payload)
+        @payload = payload
         if data
           service.run
         else
