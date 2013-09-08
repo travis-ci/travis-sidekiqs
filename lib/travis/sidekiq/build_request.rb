@@ -1,5 +1,6 @@
 require 'sidekiq/worker'
 require 'multi_json'
+require 'gh'
 
 module Travis
   module Sidekiq
@@ -22,7 +23,13 @@ module Travis
       end
 
       def service
-        @service ||= Travis.service(:receive_request, @user, payload: data, event_type: type, token: credentials['token'])
+        event = GH.load(data)
+        if event['action'] == 'closed'
+          repo = Travis.service(:find_repo, slug: event['pull_request']['repo']['full_name']
+          @service ||= Travis.service(:cancel_build, @user, :repository_id: repo.id, pull_request_number: event['number'])
+        else
+          @service ||= Travis.service(:receive_request, @user, payload: data, event_type: type, token: credentials['token'])
+        end
       end
 
       def type
