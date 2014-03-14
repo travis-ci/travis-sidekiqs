@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
-  gem.add_dependency 'sidekiq', '~> 2.8.0'
+  gem.add_dependency 'sidekiq', '> 2.8.0'
   # TODO this seems to force every app that uses travis-core to also use
   # raven for error reporting, is that what want?
   # gem.add_dependency 'sentry-raven'
