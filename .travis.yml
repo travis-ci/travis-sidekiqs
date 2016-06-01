@@ -1,6 +1,8 @@
 sudo: false
 language: ruby
 rvm:
+  - 2.3
   - 2.1
+  - 2.2
   - jruby-19mode
 script: RAILS_ENV=test rake spec
