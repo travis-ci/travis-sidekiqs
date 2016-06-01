@@ -17,4 +17,5 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = %w{lib}
   gem.add_dependency 'sidekiq'
+  gem.add_dependency 'redis-namespace'
 end

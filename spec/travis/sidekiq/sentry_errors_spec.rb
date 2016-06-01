@@ -8,7 +8,7 @@ describe Travis::Sidekiq::SentryErrors do
       @events = []
     end
 
-    def send(event)
+    def send_event(event)
       @events << event
     end
   end
@@ -33,7 +33,7 @@ describe Travis::Sidekiq::SentryErrors do
     rescue
       p $!
     end
-    raven.events.should have(1).item
+    expect(raven.events.size).to eq(1)
   end
 
   it "should include the worker and queue" do
