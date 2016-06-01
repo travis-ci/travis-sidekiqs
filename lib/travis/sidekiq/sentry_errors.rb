@@ -18,7 +18,7 @@ module Travis
         event = Raven::Event.capture_exception(error) do |event|
           event.extra = extra
         end
-        raven.send(event)
+        raven.send_event(event)
       rescue Exception => e
         Travis.logger.error("Sending error to Sentry failed: #{e.message}")
         Travis.logger.error(e.backtrace.join("\n"))

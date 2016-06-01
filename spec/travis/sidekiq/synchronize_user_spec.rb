@@ -45,8 +45,8 @@
 #   }
 #   let(:synchronize) {
 #     Travis::Sidekiq::SynchronizeUser.new.tap do |synchronize|
-#       synchronize.user = user
-#       synchronize.repository = repository
+#       synchronize.instance_variable_set(:@user, user)
+#       synchronize.instance_variable_set(:@repository, repository)
 #     end
 #   }
 #   let(:error_user) {
@@ -60,14 +60,14 @@
 #     end
 #
 #     it "should find the user based on the id" do
-#       synchronize.user = nil
+#       synchronize.instance_variable_set(:@user, nil)
 #       expect {
 #         synchronize.perform(10)
 #       }.to change(repository, :find_id)
 #     end
 #
 #     it "should update the syncing column in case of an error" do
-#       synchronize.user = error_user
+#       synchronize.instance_variable_set(:@user, user)
 #       begin
 #         synchronize.perform(10)
 #       rescue
