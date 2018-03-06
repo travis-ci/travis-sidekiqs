@@ -1,6 +1,5 @@
 ENV["RAILS_ENV"] ||= "test"
 
-require 'travis'
 require 'travis-sidekiqs'
 require 'mocha_standalone'
 
