@@ -9,7 +9,7 @@ module Travis
         begin
           yield
         rescue Exception => error
-          dispatch(error, queue: queue, worker: worker.to_s, env: Travis.env)
+          dispatch(error, queue: queue, worker: worker.to_s, env: env)
           raise
         end
       end
@@ -26,6 +26,10 @@ module Travis
 
       def raven
         @raven ||= Raven
+      end
+
+      def env
+        ENV['ENV'] || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || 'development'
       end
     end
   end
