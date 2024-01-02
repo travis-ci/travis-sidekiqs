@@ -2,3 +2,5 @@ sudo: false
 language: ruby
 rvm: 2.3.6
 script: RAILS_ENV=test rake spec
+before_install:
+  - gem install rubygems-update -v 3.4.22
